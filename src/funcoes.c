@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../src/funcoes.h"
@@ -335,7 +336,6 @@ void saveReg(Registro *reg, FILE *file){
 
 	//organização por indicador de tamnho
 	if (org == 'I'){
-
 		// capturando tamanho do registro
 		sizeReg  = 4; // delimitadores de campo
 		sizeReg += strlen(reg->cnpj);
@@ -354,7 +354,6 @@ void saveReg(Registro *reg, FILE *file){
 	}
 	// organização por delimitador entre registros
 	else if (org == 'D'){
-		
 		// grava todos os campos
 		saveField(reg, file);
 		// grava o delimitador de registros 
@@ -378,7 +377,8 @@ void saveField(Registro *reg, FILE *file){
 	// CNPJ
 	sizeField = strlen(reg->cnpj);				  	  // calcula tamanho da string
 	fwrite(reg->cnpj, sizeof(char), sizeField, file); // frwite string
-	
+	fwrite(&delField, sizeof(char), 1, file);
+
 	// Nome Social
 	sizeField = strlen(reg->razSoc);
 	fwrite(reg->razSoc, sizeof(char), sizeField, file);
@@ -392,10 +392,12 @@ void saveField(Registro *reg, FILE *file){
 	// Data do Registro
 	sizeField = strlen(reg->dtReg);
 	fwrite(reg->dtReg, sizeof(char), sizeField, file);
+	fwrite(&delField, sizeof(char), 1, file);
 
 	// Data do Cancelamento
 	sizeField = strlen(reg->dtCanc);
 	fwrite(reg->dtCanc, sizeof(char), sizeField, file);
+	fwrite(&delField, sizeof(char), 1, file);
 
 	// Motivo do Cancelamento
 	sizeField = strlen(reg->motCanc);
@@ -410,6 +412,7 @@ void saveField(Registro *reg, FILE *file){
 	// CNPJ da Empresa de Auditoria 
 	sizeField = strlen(reg->cnpjAud);
 	fwrite(reg->cnpjAud, sizeof(char), sizeField, file);
+	fwrite(&delField, sizeof(char), 1, file);
 }
 //-----------------------------------------------------//
 
@@ -521,14 +524,16 @@ void listBin_D(FILE *file){
 	nullFields(&reg);
 
 	while (fread(&c, sizeof(char), 1, file) == 1){
-		
 		// registro novo
 		if (c == DEL_REG){
 			field = 0;
 			iField = 0;
 
 			printReg(&reg);
-			
+			free(reg.razSoc);
+			free(reg.nomeFant);
+			free(reg.motCanc);
+			free(reg.nomeEmp);
 			nullFields(&reg);
 			continue;
 		}
@@ -541,7 +546,7 @@ void listBin_D(FILE *file){
 		}
 
 		// adiciona char ao campo
-		addCharField(&reg, c, field, iField++);		
+		addCharField(&reg, c, field, iField++);
 	}
 }
 
@@ -577,6 +582,10 @@ void listBin_N(FILE *file){
 
 				printReg(&reg);
 				// prepara reg para receber um novo registro
+				free(reg.razSoc);
+				free(reg.nomeFant);
+				free(reg.motCanc);
+				free(reg.nomeEmp);
 				nullFields(&reg);
 			}
 			continue;
@@ -934,14 +943,14 @@ void addCharField(Registro *reg, char c, int field, int iField){
         case 1:
             reg->razSoc = (char*)realloc(reg->razSoc, sizeof(char) * iField+2);
             reg->razSoc[iField] = c;
-            reg->razSoc[++iField] = '\0';                             
+            reg->razSoc[++iField] = '\0';
         break;
 
         // Nome Fantasia
-        case 2:                
+        case 2:
             reg->nomeFant = (char*)realloc(reg->nomeFant, sizeof(char) * iField+2);
             reg->nomeFant[iField] = c;
-            reg->nomeFant[++iField] = '\0';                    
+            reg->nomeFant[++iField] = '\0';
         break;
 
         // Data do Registro
@@ -953,7 +962,7 @@ void addCharField(Registro *reg, char c, int field, int iField){
         // Data do Registro
         case 4:
             reg->dtCanc[iField++] = c;
-            reg->dtCanc[iField] = '\0';                
+            reg->dtCanc[iField] = '\0';
         break;
 
         // Motivo do Cancelamento

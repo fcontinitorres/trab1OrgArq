@@ -19,7 +19,7 @@ int main(){
 		printf("\n++++++++++++++++++++++++++++++++++++++++\n");
 		printf("+ TRABALHO 1 - ORGANIZAÇÃO DE ARQUIVOS +\n");
 		printf("++++++++++++++++++++++++++++++++++++++++\n");		
-		printf("1 - Indicador de tamnho\n");
+		printf("1 - Indicador de tamanho\n");
 		printf("2 - Delimitador entre registros\n");
 		printf("3 - Numero fixo de campos\n");
 		printf("Informe a organização de arquivo desejada: ");
