@@ -463,6 +463,7 @@ void listBin_I(FILE *file){
 	// iterenado sobre o arquivo, a cada repetição pega o tamanho de um campo
 	while (fread(&sizeReg, sizeof(int), 1, file) == 1) {
 
+                char buffer;
 		// Preparando variáveis para um novo registro
 		field = 0;
 		iField = 0;
@@ -475,6 +476,8 @@ void listBin_I(FILE *file){
 			if(field == 0 || field == 7){
 				//lendo campo fixo CNPJ
 				fread(&string,sizeof(char),18,file);
+                                // descartar delimitador de campo
+                                fread(&buffer, sizeof(char), 1, file);
 				//adiciona a string do CNPJ lida na struct
 				addStringFieldCNPJ(&reg, string,field++);
 				i += 18;
@@ -484,6 +487,8 @@ void listBin_I(FILE *file){
 			if(field == 3 || field == 4){
 				//lendo campo fixo Datas
 				fread(&string,sizeof(char),8,file);
+                                // descartar delimitador de campo
+                                fread(&buffer, sizeof(char), 1, file);
 				//adiciona a string da data lida na struct
 				addStringFieldDate(&reg,string,field++);
 				i += 8;
@@ -1268,7 +1273,6 @@ Registro* getReg(FILE *file){
 	// CNPJ
 	fread(&reg->cnpj,sizeof(char),18,file);
 	reg->cnpj[18] = '\0';
-
 
 	// Razao Social
 	reg->razSoc = getField(file);
