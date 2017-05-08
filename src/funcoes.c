@@ -1263,6 +1263,7 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 	Retorno:
 		Retorna o registro capturado do arquivo */
 Registro* getReg(FILE *file){
+        char buffer; // descarte
 	Registro *reg; // registro que será retornado
 	char *field; //campo genérico, usado para preencher o campo dos registros
 	int i; // itera sobre os campos
@@ -1272,6 +1273,10 @@ Registro* getReg(FILE *file){
 
 	// CNPJ
 	fread(&reg->cnpj,sizeof(char),18,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->cnpj[18] = '\0';
 
 	// Razao Social
@@ -1282,10 +1287,18 @@ Registro* getReg(FILE *file){
 
 	// Data do registro
 	fread(&reg->dtReg,sizeof(char),8,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->dtReg[8] = '\0';
 
 	// Data do Cancelamento
 	fread(&reg->dtCanc,sizeof(char),8,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->dtCanc[8] = '\0';
 
 	// Motivo do Cancelamento
@@ -1296,6 +1309,10 @@ Registro* getReg(FILE *file){
 
 	// CNPJ da Empresa de Auditoria
 	fread(&reg->cnpjAud,sizeof(char),18,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->cnpjAud[18] = '\0';
 
 	return(reg);
