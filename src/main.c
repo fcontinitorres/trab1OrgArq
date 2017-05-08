@@ -1,4 +1,10 @@
-// Bruno Henrique Rasteiro 9292910
+/*
+GRUPO G5
+Felipe Scrochio Custodio, 9442688
+Felipe Contini Torres, 9253670
+Júlia Diniz Ferreira, 9364865
+Bruno Henrique Rasteiro, 9292910
+*/
 
 #include "../src/funcoes.h"
 #include "../src/parametros.h"
@@ -7,7 +13,7 @@ int main(){
 	int flag;
 	int opcao;
 	FILE *fileIn, *fileOut;
-	
+
 	// verifica se os arquivos foram abertos com sucesso
 	if (!validaArquivos(&fileIn, &fileOut)){
 		return(0);
@@ -52,7 +58,7 @@ int main(){
 
 	flag = 1;
 	while(flag){
-    	
+
     	printf("\n++++++++\n");
     	printf("+ MENU +\n");
     	printf("++++++++\n");
@@ -87,7 +93,7 @@ int main(){
 			break;
 
 			default:
-				printf("\nOpcao invalida.\n");				
+				printf("\nOpcao invalida.\n");
 		}
 	}
 

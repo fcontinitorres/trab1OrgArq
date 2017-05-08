@@ -1,3 +1,11 @@
+/*
+GRUPO G5
+Felipe Scrochio Custodio, 9442688
+Felipe Contini Torres, 9253670
+Júlia Diniz Ferreira, 9364865
+Bruno Henrique Rasteiro, 9292910
+*/
+
 #include <stdio.h>
 
 //*************************************************//
@@ -79,7 +87,7 @@ Registro* buscaReg_N(FILE *file, int regBusca);
 //--------------------//
 
 
-//****************************// 
+//****************************//
 //* SUB FUNÇÕES - UTILIDADES *//
 //****************************//
 void addCharField(Registro *reg, char c, int field, int iField);
