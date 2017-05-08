@@ -62,6 +62,7 @@ void opcao1(FILE *file){
 void opcao2(FILE *file){
 	int field; // campo que a busca será realizado
 	char *strBusca; // valor que a busca irá usar para comparar
+	char *aux;
 	Registro *reg; // registro resultante da busca
 
 	// espera campo de busca
@@ -88,9 +89,11 @@ void opcao2(FILE *file){
 	strBusca = NULL;
 	scanf("%ms", &strBusca);
 	// converte string informada trocando ';' por ' '
+	aux = strBusca;
 	strBusca = convertStr(strBusca);
 	printf("\n");
-
+	free(aux);
+	
 	// busca
 	reg = buscaCampo(file, field, strBusca);
 
@@ -100,13 +103,14 @@ void opcao2(FILE *file){
 		free(reg->nomeFant);
 		free(reg->motCanc);
 		free(reg->nomeEmp);
-		free(reg);
 	}
 	else
 		printf("Não foi possível localizar o registro.\n");
 
 	// reseta ponteiro do arquivo
 	fseek(file, 0, SEEK_SET);
+	free(reg);
+	free(strBusca);
 }
 
 /*	Descrição:
@@ -132,13 +136,19 @@ void opcao3(FILE *file){
 	// busca
 	reg = buscaReg(file, regBusca);
 
-	if (reg != NULL)
+	if (reg != NULL){
 		printReg(reg);
+		free(reg->razSoc);
+		free(reg->nomeFant);
+		free(reg->motCanc);
+		free(reg->nomeEmp);
+	}
 	else
 		printf("Não foi possível localizar o registro.\n");
 
 	// reseta ponteiro do arquivo
 	fseek(file, 0, SEEK_SET);
+	free(reg);
 }
 
 /*	Descrição:
@@ -385,7 +395,7 @@ void saveField(Registro *reg, FILE *file){
 	// CNPJ
 	sizeField = strlen(reg->cnpj);				  	  // calcula tamanho da string
 	fwrite(reg->cnpj, sizeof(char), sizeField, file); // frwite string
-	fwrite(&delField, sizeof(char), 1, file);
+	if(org != 'I') fwrite(&delField, sizeof(char), 1, file);
 
 	// Nome Social
 	sizeField = strlen(reg->razSoc);
@@ -400,12 +410,12 @@ void saveField(Registro *reg, FILE *file){
 	// Data do Registro
 	sizeField = strlen(reg->dtReg);
 	fwrite(reg->dtReg, sizeof(char), sizeField, file);
-	fwrite(&delField, sizeof(char), 1, file);
+	if(org != 'I') fwrite(&delField, sizeof(char), 1, file);
 
 	// Data do Cancelamento
 	sizeField = strlen(reg->dtCanc);
 	fwrite(reg->dtCanc, sizeof(char), sizeField, file);
-	fwrite(&delField, sizeof(char), 1, file);
+	if(org != 'I') fwrite(&delField, sizeof(char), 1, file);
 
 	// Motivo do Cancelamento
 	sizeField = strlen(reg->motCanc);
@@ -420,7 +430,7 @@ void saveField(Registro *reg, FILE *file){
 	// CNPJ da Empresa de Auditoria
 	sizeField = strlen(reg->cnpjAud);
 	fwrite(reg->cnpjAud, sizeof(char), sizeField, file);
-	fwrite(&delField, sizeof(char), 1, file);
+	if(org != 'I') fwrite(&delField, sizeof(char), 1, file);
 }
 //-----------------------------------------------------//
 
@@ -652,14 +662,15 @@ Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca){
 		// encontrou
 		if (compareField(reg, fieldBusca, strBusca) == 0)
 			return reg;
+
+		// não encontrou
+		free(reg->razSoc);
+		free(reg->nomeFant);
+		free(reg->motCanc);
+		free(reg->nomeEmp);
+		free(reg);
 	}
 
-	// não ecnotrou
-	free(reg->razSoc);
-	free(reg->nomeFant);
-	free(reg->motCanc);
-	free(reg->nomeEmp);
-	free(reg);
 	return NULL;
 }
 
