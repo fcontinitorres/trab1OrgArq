@@ -86,8 +86,14 @@ void opcao2(FILE *file){
 	// busca
 	reg = buscaCampo(file, field, strBusca);
 
-	if (reg != NULL)
+	if (reg != NULL){
 		printReg(reg);
+		free(reg->razSoc);
+		free(reg->nomeFant);
+		free(reg->motCanc);
+		free(reg->nomeEmp);
+		free(reg);
+	}
 	else
 		printf("Não foi possível localizar o registro.\n");				
 
@@ -169,9 +175,10 @@ void opcao4(FILE *file){
 	// busca
 	result = buscaRegCampo(file, regBusca, fieldBusca);
 
-	if (result != NULL)
+	if (result != NULL){
 		printf("\n%s\n", result);
-	else 
+		free(result);
+	}else 
 		printf("\nRegistro não encontrado\n");
 
 	// reseta ponteiro do arquivo
@@ -251,6 +258,10 @@ void csv2Bin(FILE *fileIn, FILE *fileOut){
             // zera indice do campo que será lido
             iField = 0;
             //Prepara os campo para serem realocados
+			free(reg.razSoc);
+			free(reg.nomeFant);
+			free(reg.motCanc);
+			free(reg.nomeEmp);
             nullFields(&reg);
             continue;
         }
@@ -486,6 +497,10 @@ void listBin_I(FILE *file){
 
 		// exibe registro recuperado do arquivo
 		printReg(&reg);
+		free(reg.razSoc);
+		free(reg.nomeFant);
+		free(reg.motCanc);
+		free(reg.nomeEmp);
 	}
 }
 
@@ -621,6 +636,10 @@ Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca){
 	}
 
 	// não ecnotrou
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return NULL;
 }
@@ -670,6 +689,10 @@ Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca){
 	}
 
 	// não encontrou
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return NULL;
 }
@@ -720,6 +743,10 @@ Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca){
 	}
 	
 	// não encontrou
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return NULL;
 }
@@ -816,6 +843,10 @@ Registro* buscaReg_D(FILE *file, int regBusca){
 	}
 
 	// não encontrou
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return NULL;
 }
@@ -868,6 +899,10 @@ Registro* buscaReg_N(FILE *file, int regBusca){
 	}
 
 	// não encontrou
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return NULL;
 }
@@ -1188,6 +1223,10 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 		}
 
 
+	free(reg->razSoc);
+	free(reg->nomeFant);
+	free(reg->motCanc);
+	free(reg->nomeEmp);
 	free(reg);
 	return retorno;
 }
