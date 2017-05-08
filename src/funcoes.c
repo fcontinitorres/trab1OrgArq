@@ -473,6 +473,7 @@ void listBin_I(FILE *file){
 	// iterenado sobre o arquivo, a cada repetição pega o tamanho de um campo
 	while (fread(&sizeReg, sizeof(int), 1, file) == 1) {
 
+                char buffer;
 		// Preparando variáveis para um novo registro
 		field = 0;
 		iField = 0;
@@ -485,6 +486,8 @@ void listBin_I(FILE *file){
 			if(field == 0 || field == 7){
 				//lendo campo fixo CNPJ
 				fread(&string,sizeof(char),18,file);
+                                // descartar delimitador de campo
+                                fread(&buffer, sizeof(char), 1, file);
 				//adiciona a string do CNPJ lida na struct
 				addStringFieldCNPJ(&reg, string,field++);
 				i += 18;
@@ -494,6 +497,8 @@ void listBin_I(FILE *file){
 			if(field == 3 || field == 4){
 				//lendo campo fixo Datas
 				fread(&string,sizeof(char),8,file);
+                                // descartar delimitador de campo
+                                fread(&buffer, sizeof(char), 1, file);
 				//adiciona a string da data lida na struct
 				addStringFieldDate(&reg,string,field++);
 				i += 8;
@@ -1269,6 +1274,7 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 	Retorno:
 		Retorna o registro capturado do arquivo */
 Registro* getReg(FILE *file){
+        char buffer; // descarte
 	Registro *reg; // registro que será retornado
 	char *field; //campo genérico, usado para preencher o campo dos registros
 	int i; // itera sobre os campos
@@ -1278,8 +1284,11 @@ Registro* getReg(FILE *file){
 
 	// CNPJ
 	fread(&reg->cnpj,sizeof(char),18,file);
-	reg->cnpj[18] = '\0';
 
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
+	reg->cnpj[18] = '\0';
 
 	// Razao Social
 	reg->razSoc = getField(file);
@@ -1289,10 +1298,18 @@ Registro* getReg(FILE *file){
 
 	// Data do registro
 	fread(&reg->dtReg,sizeof(char),8,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->dtReg[8] = '\0';
 
 	// Data do Cancelamento
 	fread(&reg->dtCanc,sizeof(char),8,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->dtCanc[8] = '\0';
 
 	// Motivo do Cancelamento
@@ -1303,6 +1320,10 @@ Registro* getReg(FILE *file){
 
 	// CNPJ da Empresa de Auditoria
 	fread(&reg->cnpjAud,sizeof(char),18,file);
+
+        // ler delimitador
+        fread(&buffer, sizeof(char), 1, file);
+
 	reg->cnpjAud[18] = '\0';
 
 	return(reg);
