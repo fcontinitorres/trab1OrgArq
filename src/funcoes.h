@@ -25,7 +25,6 @@ typedef struct {
         char cnpjAud[19];
 } Registro;
 
-
 //*******************//
 //* FUNÇÕES DO MAIN *//
 //*******************//
