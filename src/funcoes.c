@@ -6,10 +6,7 @@ Júlia Diniz Ferreira, 9364865
 Bruno Henrique Rasteiro, 9292910
 */
 
-#include <stdlib.h>
-#include <string.h>
 #include "../src/funcoes.h"
-#include "../src/parametros.h"
 
 //*******************//
 //* FUNÇÕES DO MAIN *//
@@ -24,18 +21,18 @@ Bruno Henrique Rasteiro, 9292910
 		Retorna um int que indica o sucesso da função. Os possíves valores são:
 		1 -> Arquivos aberto com sucesso
 		2 -> Falha ao abrir arquivos */
-int validaArquivos(FILE **fileIn, FILE **fileOut){
+int validaArquivos(FILE **fileIn, FILE **fileOut) {
 
 	// abrindo arquivos
     *fileIn  = fopen(FILE_IN, "r");
     *fileOut = fopen(FILE_OUT, "wb+");
 
-    if (*fileIn == NULL){
+    if (*fileIn == NULL) {
     	printf("Erro ao abrir: %s\n", FILE_IN);
     	return(0);
     }
 
-    if (*fileOut == NULL){
+    if (*fileOut == NULL) {
     	printf("Erro ao abrir: %s\n", FILE_OUT);
     	return(0);
     }
@@ -47,7 +44,7 @@ int validaArquivos(FILE **fileIn, FILE **fileOut){
 		Realiza as tarefas para executar a primeira opção do menu
 	Parêmetros:
 		file = arquivo de saida (binário) */
-void opcao1(FILE *file){
+void opcao1(FILE *file) {
 	// lista todos os dados
 	listBin(file);
 
@@ -59,7 +56,7 @@ void opcao1(FILE *file){
 		Realiza as tarefas para executar a segunda opção do menu
 	Parêmetros:
 		file = arquivo de saida (binário) */
-void opcao2(FILE *file){
+void opcao2(FILE *file) {
 	int field; // campo que a busca será realizado
 	char *strBusca; // valor que a busca irá usar para comparar
 	char *aux;
@@ -79,7 +76,7 @@ void opcao2(FILE *file){
 	getchar();
 
 	// valida campo de busca
-	if (field < 1 || field > 8){
+	if (field < 1 || field > 8) {
 		printf("\nOpcao invalida.\n");
 		return;
 	}
@@ -93,11 +90,11 @@ void opcao2(FILE *file){
 	strBusca = convertStr(strBusca);
 	printf("\n");
 	free(aux);
-	
+
 	// busca
 	reg = buscaCampo(file, field, strBusca);
 
-	if (reg != NULL){
+	if (reg != NULL) {
 		printReg(reg);
 		free(reg->razSoc);
 		free(reg->nomeFant);
@@ -117,7 +114,7 @@ void opcao2(FILE *file){
 		Realiza as tarefas para executar a terceira opção do menu
 	Parêmetros:
 		file = arquivo de saida (binário) */
-void opcao3(FILE *file){
+void opcao3(FILE *file) {
 	int regBusca; // localização do registro que será buscado
 	Registro *reg; // resultado da busca
 
@@ -128,7 +125,7 @@ void opcao3(FILE *file){
 	printf("\n");
 
 	// valida a localização do registro
-	if (regBusca < 1){
+	if (regBusca < 1) {
 		printf("\nOpcao invalida.\n");
 		return;
 	}
@@ -136,7 +133,7 @@ void opcao3(FILE *file){
 	// busca
 	reg = buscaReg(file, regBusca);
 
-	if (reg != NULL){
+	if (reg != NULL) {
 		printReg(reg);
 		free(reg->razSoc);
 		free(reg->nomeFant);
@@ -155,7 +152,7 @@ void opcao3(FILE *file){
 		Realiza as tarefas para executar a quarta opção do menu
 	Parêmetros:
 		file = arquivo de saida (binário) */
-void opcao4(FILE *file){
+void opcao4(FILE *file) {
 	int regBusca; // localização do registro que será buscado
 	int fieldBusca; // indica qual campo sera buscado e retornado
 	char *result; // resultado da busca
@@ -174,7 +171,7 @@ void opcao4(FILE *file){
 	getchar();
 
 	// valida campo de busca
-	if (fieldBusca < 1 || fieldBusca > 8){
+	if (fieldBusca < 1 || fieldBusca > 8) {
 		printf("\nOpcao invalida.\n");
 		return;
 	}
@@ -185,7 +182,7 @@ void opcao4(FILE *file){
 	getchar();
 
 	// valida a localização do registro
-	if (regBusca < 1){
+	if (regBusca < 1) {
 		printf("\nOpcao invalida.\n");
 		return;
 	}
@@ -193,7 +190,7 @@ void opcao4(FILE *file){
 	// busca
 	result = buscaRegCampo(file, regBusca, fieldBusca);
 
-	if (result != NULL){
+	if (result != NULL) {
 		printf("\n%s\n", result);
 		free(result);
 	}else
@@ -209,7 +206,7 @@ void opcao4(FILE *file){
 		str = string que será convertida
 	Retorno:
 		Retorna a string convertida, caso a string dada seja NULL o retorno também será */
-char* convertStr(char *str){
+char* convertStr(char *str) {
 	int i; // indice que será percorrido na string
 	char *retorno = NULL; // string de retorno
 
@@ -217,7 +214,7 @@ char* convertStr(char *str){
 		// aloca strlen(str)+1 posicoes para incluir o '\0'
 		retorno = (char *)malloc(strlen(str)+1);
 		// percorre até o '\0' fazendo a substituição quando necessária
-		for(i=0; i < strlen(str)+1; i++){
+		for(i=0; i < strlen(str)+1; i++) {
 			if (str[i] == ';')
 				retorno[i] = ' ';
 			else
@@ -229,7 +226,6 @@ char* convertStr(char *str){
 //-------------------//
 
 
-
 //*****************************************************//
 //* FUNÇÕES PARA GERAR O ARQUIVO BINÁRIO DE REGISTROS *//
 //*****************************************************//
@@ -239,7 +235,7 @@ char* convertStr(char *str){
 	Parêmetros:
 		fileIn = Arquivo de entrada
 		fileOut = Arquvio de saída */
-void csv2Bin(FILE *fileIn, FILE *fileOut){
+void csv2Bin(FILE *fileIn, FILE *fileOut) {
     char c = 'c'; // caracter que irá percorrer o arquivo, deve ser inicializado com um valor != de EOF
     char string[18];
     int field;  // indica qual campo do arquivo está sendo lido, seus valores vão de 0 a 7
@@ -253,7 +249,7 @@ void csv2Bin(FILE *fileIn, FILE *fileOut){
     iField = 0;
 
     // iterando sobre o arquivo
-    while(c != EOF){
+    while(c != EOF) {
 
         // le um caracter do arquivo
         c = fgetc(fileIn);
@@ -263,7 +259,7 @@ void csv2Bin(FILE *fileIn, FILE *fileOut){
         	continue;
 
         // chegou em um novo registro
-        if (c == '\n'){
+        if (c == '\n') {
 
         	//verifica se todos os campos fixos tem o tamanho correto
         	checkSizeFixedFields(&reg);
@@ -285,7 +281,7 @@ void csv2Bin(FILE *fileIn, FILE *fileOut){
         }
 
         // chegou em um novo campo
-        if (c == ';'){
+        if (c == ';') {
             // incrementa qual campo o arquivo está lendo
             field++;
             // zera o indice do campo que será lido
@@ -302,40 +298,40 @@ void csv2Bin(FILE *fileIn, FILE *fileOut){
 		Função que verifica se os campos fixos tem o tamanho correto
 	Parêmetros:
 		reg = Registro a verificar o tamanho dos campos fixos*/
-void checkSizeFixedFields(Registro *reg){
+void checkSizeFixedFields(Registro *reg) {
 	int size,i;
 
 	//verifica o tamanho do campo cnpj
-	if( strlen(reg->cnpj) < 18 ){
+	if( strlen(reg->cnpj) < 18 ) {
 		size = strlen(reg->cnpj);
-		for(i=size;i<18;i++){
+		for(i=size;i<18;i++) {
 			reg->cnpj[i] = '0'; //completa o campo com 0s
 		}
 		reg->cnpj[i] = '\0';
 	}
 
 	//verifica o tamanho do campo data de registro
-	if( strlen(reg->dtReg) < 8){
+	if( strlen(reg->dtReg) < 8) {
 		size = strlen(reg->dtReg);
-		for(i=size;i<8;i++){
+		for(i=size;i<8;i++) {
 			reg->dtReg[i] = '0'; //completa o campo com 0s
 		}
 		reg->dtReg[i] = '\0';
 	}
 
 	//verifica o tamanho do campo data de cancelamento
-	if( strlen(reg->dtCanc) < 8){
+	if( strlen(reg->dtCanc) < 8) {
 		size = strlen(reg->dtCanc);
-		for(i=size;i<8;i++){
+		for(i=size;i<8;i++) {
 			reg->dtCanc[i] = '0'; //completa o campo com 0s
 		}
 		reg->dtCanc[i] = '\0';
 	}
 
 	//verifica o tamanho do campo cnpj auditor
-	if( strlen(reg->cnpjAud) < 18){
+	if( strlen(reg->cnpjAud) < 18) {
 		size = strlen(reg->cnpjAud);
-		for(i=size;i<18;i++){
+		for(i=size;i<18;i++) {
 			reg->cnpjAud[i] = '0'; //completa o campo com 0s
 		}
 		reg->cnpjAud[i] = '\0';
@@ -347,12 +343,12 @@ void checkSizeFixedFields(Registro *reg){
 	Parêmetros:
 		reg = Registro que será gravado
 		file = Arquvio cujo registro será gravado */
-void saveReg(Registro *reg, FILE *file){
+void saveReg(Registro *reg, FILE *file) {
 	int sizeReg; // tamanho do registro que será gravado
 	char delReg = DEL_REG; // delimitador de registro
 
 	//organização por indicador de tamnho
-	if (org == 'I'){
+	if (org == 'I') {
 		// capturando tamanho do registro
 		sizeReg  = 4; // delimitadores de campo
 		sizeReg += strlen(reg->cnpj);
@@ -370,7 +366,7 @@ void saveReg(Registro *reg, FILE *file){
 		saveField(reg, file);
 	}
 	// organização por delimitador entre registros
-	else if (org == 'D'){
+	else if (org == 'D') {
 
 		// grava todos os campos
 		saveField(reg, file);
@@ -388,7 +384,7 @@ void saveReg(Registro *reg, FILE *file){
 	Parêmetros:
 		reg = Registro que terá seus campos gravados
 		file = Arquvio cujos campos serão gravados */
-void saveField(Registro *reg, FILE *file){
+void saveField(Registro *reg, FILE *file) {
 	int sizeField; // tamanho da string que será salva
 	char delField = DEL_FIELD; // delimitador de campo
 
@@ -434,8 +430,6 @@ void saveField(Registro *reg, FILE *file){
 }
 //-----------------------------------------------------//
 
-
-
 //***************************************//
 //* FUNÇÕES PARA LISTAGEM DOS REGISTROS *//
 //***************************************//
@@ -444,7 +438,7 @@ void saveField(Registro *reg, FILE *file){
 		Lista todos os registros do arquivo, independente da sua organização
 	Parêmetros:
 		file = Arquivo que terá seus registros listados */
-void listBin(FILE *file){
+void listBin(FILE *file) {
 
 	if (org == 'I')
 		listBin_I(file);
@@ -461,7 +455,7 @@ void listBin(FILE *file){
 		Lista todos os registros de um arquivo, desde que os registros estejam organizados por indicadores de tamanho
 	Parêmetros:
 		file = Arquivo que terá seus registros listados */
-void listBin_I(FILE *file){
+void listBin_I(FILE *file) {
 	Registro reg; // registro que será listado
 	int sizeReg; // tamanho do registro
 	int i; // itera sobre o registro
@@ -480,10 +474,10 @@ void listBin_I(FILE *file){
 		nullFields(&reg);
 
 		// itera sobre o registro
-		for(i=0; i < sizeReg; i++){
+		for(i=0; i < sizeReg; i++) {
 
 			//Lendo campo fixo de CNPJ
-			if(field == 0 || field == 7){
+			if(field == 0 || field == 7) {
 				//lendo campo fixo CNPJ
 				fread(&string,sizeof(char),18,file);
                                 // descartar delimitador de campo
@@ -494,7 +488,7 @@ void listBin_I(FILE *file){
 			}
 
 			//Lendo campo fixo de Data
-			if(field == 3 || field == 4){
+			if(field == 3 || field == 4) {
 				//lendo campo fixo Datas
 				fread(&string,sizeof(char),8,file);
                                 // descartar delimitador de campo
@@ -505,12 +499,12 @@ void listBin_I(FILE *file){
 			}
 
 			//Lendo campo variaveis
-			if(field == 1 || field == 2 || field == 5 || field == 6){
+			if(field == 1 || field == 2 || field == 5 || field == 6) {
 				// le carácter
 				fread(&c, sizeof(char), 1, file);
 
 				// campo novo
-				if (c == ';'){
+				if (c == ';') {
 					field++;
 					iField = 0;
 					continue;
@@ -534,7 +528,7 @@ void listBin_I(FILE *file){
 		Lista todos os registros de um arquivo, desde que os registros estejam organizados por delimitadores
 	Parêmetros:
 		file = Arquivo que terá seus registros listados */
-void listBin_D(FILE *file){
+void listBin_D(FILE *file) {
 	Registro reg; // registro que será listado
 	int field; // campo que está sendo lido (0 a 7)
 	int iField;	// indice do campo que está sendo lido
@@ -546,10 +540,10 @@ void listBin_D(FILE *file){
 	iField = 0;
 	nullFields(&reg);
 
-	while (fread(&c, sizeof(char), 1, file) == 1){
+	while (fread(&c, sizeof(char), 1, file) == 1) {
 
 		// registro novo
-		if (c == DEL_REG){
+		if (c == DEL_REG) {
 			field = 0;
 			iField = 0;
 
@@ -564,7 +558,7 @@ void listBin_D(FILE *file){
 		}
 
 		// campo novo
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 			field++;
 			iField = 0;
 			continue;
@@ -579,7 +573,7 @@ void listBin_D(FILE *file){
 		Lista todos os registros de um arquivo, desde que os registros estejam organizados por número fixo de campos
 	Parêmetros:
 		file = Arquivo que terá seus registros listados */
-void listBin_N(FILE *file){
+void listBin_N(FILE *file) {
 	Registro reg; // registro que será listado
 	int field; // campo que está sendo lido (0 a 7)
 	int iField;	// indice do campo que está sendo lido
@@ -591,12 +585,12 @@ void listBin_N(FILE *file){
 	nullFields(&reg);
 
 	// percorre todo o arquivo
-	while (fread(&c, sizeof(char), 1, file) == 1){
+	while (fread(&c, sizeof(char), 1, file) == 1) {
 
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 
 			// campo novo
-			if (field < 7){
+			if (field < 7) {
 				field++;
 				iField = 0;
 			}
@@ -623,8 +617,6 @@ void listBin_N(FILE *file){
 }
 //---------------------------------------//
 
-
-
 //********************//
 //* FUNÇÕES DE BUSCA *//
 //********************//
@@ -638,7 +630,7 @@ void listBin_N(FILE *file){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o registro caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaCampo(FILE *file, int fieldBusca, char *strBusca){
+Registro* buscaCampo(FILE *file, int fieldBusca, char *strBusca) {
 	if (org == 'I')
 		return buscaCampo_I(file, fieldBusca, strBusca);
 	else if (org == 'D')
@@ -656,12 +648,12 @@ Registro* buscaCampo(FILE *file, int fieldBusca, char *strBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o registro caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca){
+Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca) {
 	int size; // tamanho do registro
 	Registro *reg; // registro que será retornado
 
 	// percorrendo cada registro do arquivo
-	while (fread(&size, sizeof(int), 1, file) == 1){
+	while (fread(&size, sizeof(int), 1, file) == 1) {
 		reg = getReg(file);
 
 		// encontrou
@@ -688,7 +680,7 @@ Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o registro caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca){
+Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca) {
 	char c; // carácter que irá percorrer todo o arquivo
 	Registro *reg; // registro que será retornado
 	int field = 0; // campo que está sendo lido (0 a 7)
@@ -699,16 +691,16 @@ Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca){
 	nullFields(reg);
 
 	// percorre arquivo char a char
-	while(fread(&c, sizeof(char), 1, file) == 1){
+	while(fread(&c, sizeof(char), 1, file) == 1) {
 
 		// troca de campo
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 			field++;
 			iField = 0;
 			continue;
 		}
 
-		if (c == DEL_REG){
+		if (c == DEL_REG) {
 			// encontrou
 			if (compareField(reg, fieldBusca, strBusca) == 0)
 				return reg;
@@ -741,7 +733,7 @@ Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o registro caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca){
+Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca) {
 	char c; // carácter que irá percorrer todo o arquivo
 	Registro *reg; // registro que será retornado
 	int field = 0; // campo que está sendo lido (0 a 7)
@@ -752,12 +744,12 @@ Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca){
 	nullFields(reg);
 
 	// percorre arquivo char a char
-	while(fread(&c, sizeof(char), 1, file) == 1){
+	while(fread(&c, sizeof(char), 1, file) == 1) {
 
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 
 			// troca de registro
-			if (field == 7){
+			if (field == 7) {
 
 				// encontrou
 				if (compareField(reg, fieldBusca, strBusca) == 0)
@@ -795,7 +787,7 @@ Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o campo caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaReg(FILE *file, int regBusca){
+Registro* buscaReg(FILE *file, int regBusca) {
 	if (org == 'I')
 		return buscaReg_I(file, regBusca);
 	else if (org == 'D')
@@ -813,7 +805,7 @@ Registro* buscaReg(FILE *file, int regBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o campo caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaReg_I(FILE *file, int regBusca){
+Registro* buscaReg_I(FILE *file, int regBusca) {
 	int size; // tamanho do registro
 	int countReg = 1; //conta quantos registros foram lidos
 
@@ -841,7 +833,7 @@ Registro* buscaReg_I(FILE *file, int regBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o campo caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaReg_D(FILE *file, int regBusca){
+Registro* buscaReg_D(FILE *file, int regBusca) {
 	char c; // carácter que irá percorrer todo o arquivo
 	Registro *reg; // registro que será retornado
 	int field = 0; // campo que está sendo lido (0 a 7)
@@ -853,17 +845,17 @@ Registro* buscaReg_D(FILE *file, int regBusca){
 	nullFields(reg);
 
 	// percorre o arquivo char a char
-	while(fread(&c, sizeof(char), 1, file) == 1){
+	while(fread(&c, sizeof(char), 1, file) == 1) {
 
 		// trocou de campo
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 			field++;
 			iField = 0;
 			continue;
 		}
 
 		// trocou de registro
-		if (c == DEL_REG){
+		if (c == DEL_REG) {
 			// encontrou
 			if (countReg++ == regBusca)
 				return reg;
@@ -895,7 +887,7 @@ Registro* buscaReg_D(FILE *file, int regBusca){
 		strBusca = Valor (string) de comparação da busca
 	Retorno:
 		Retorna o campo caso ele seja encontrado, caso contrário retorna NULL */
-Registro* buscaReg_N(FILE *file, int regBusca){
+Registro* buscaReg_N(FILE *file, int regBusca) {
 	char c; // carácter que irá percorrer todo o arquivo
 	Registro *reg; // registro que será retornado
 	int field = 0; // campo que está sendo lido (0 a 7)
@@ -907,12 +899,12 @@ Registro* buscaReg_N(FILE *file, int regBusca){
 	nullFields(reg);
 
 	// percorre o arquivo char a char
-	while(fread(&c, sizeof(char), 1, file) == 1){
+	while(fread(&c, sizeof(char), 1, file) == 1) {
 
-		if (c == DEL_FIELD){
+		if (c == DEL_FIELD) {
 
 			// troca de registro
-			if (field == 7){
+			if (field == 7) {
 				// encontrou
 				if (countReg++ == regBusca)
 					return reg;
@@ -943,8 +935,6 @@ Registro* buscaReg_N(FILE *file, int regBusca){
 }
 //--------------------//
 
-
-
 //*******************************//
 //* FUNÇÕES ÚTEIS (SUB FUNÇÕES) *//
 //*******************************//
@@ -957,8 +947,8 @@ Registro* buscaReg_N(FILE *file, int regBusca){
 		c = Char que será adicionado
 		field = Indica qual campo terá o char adicionado (seus valores vão de 0 a 7)
 		iField = Indice que indica em qual posição do campo o char será inserido */
-void addCharField(Registro *reg, char c, int field, int iField){
-    switch(field){
+void addCharField(Registro *reg, char c, int field, int iField) {
+    switch(field) {
         // CNPJ
         case 0:
             reg->cnpj[iField] = c;
@@ -1020,18 +1010,18 @@ void addCharField(Registro *reg, char c, int field, int iField){
 		c = Char que será adicionado
 		field = Indica qual campo terá o char adicionado (seus valores vão de 0 a 7)
 		iField = Indice que indica em qual posição do campo o char será inserido */
-void addStringFieldCNPJ(Registro *reg, char c[18], int field){
+void addStringFieldCNPJ(Registro *reg, char c[18], int field) {
 	int i;
-	switch(field){
+	switch(field) {
 		case 0:
-			for(i=0;i<18;i++){
+			for(i=0;i<18;i++) {
 				reg->cnpj[i] = c[i];
 			}
 			reg->cnpj[i] = '\0';
 		break;
 
 		case 7:
-			for(i=0;i<18;i++){
+			for(i=0;i<18;i++) {
 				reg->cnpjAud[i] = c[i];
 			}
 			reg->cnpjAud[i] = '\0';
@@ -1046,18 +1036,18 @@ void addStringFieldCNPJ(Registro *reg, char c[18], int field){
 		c = Char que será adicionado
 		field = Indica qual campo terá o char adicionado (seus valores vão de 0 a 7)
 		iField = Indice que indica em qual posição do campo o char será inserido */
-void addStringFieldDate(Registro *reg, char c[18], int field){
+void addStringFieldDate(Registro *reg, char c[18], int field) {
 	int i;
-	switch(field){
+	switch(field) {
 		case 3:
-			for(i=0;i<8;i++){
+			for(i=0;i<8;i++) {
 				reg->dtReg[i] = c[i];
 			}
 			reg->dtReg[i] = '\0';
 		break;
 
 		case 4:
-			for(i=0;i<8;i++){
+			for(i=0;i<8;i++) {
 				reg->dtCanc[i] = c[i];
 			}
 			reg->dtCanc[i] = '\0';
@@ -1070,7 +1060,7 @@ void addStringFieldDate(Registro *reg, char c[18], int field){
 		É utilizada quando um registro é recém criado e seus campos variáveis irão passar por um realloc
 	Parêmetros:
 		reg = Registro que irá receber null em seus campos variáveis */
-void nullFields(Registro *reg){
+void nullFields(Registro *reg) {
     reg->razSoc  = NULL;
     reg->nomeFant = NULL;
     reg->motCanc  = NULL;
@@ -1081,10 +1071,10 @@ void nullFields(Registro *reg){
 		Exibe um registro na saída padrão.
 	Parêmetros:
 		reg = Registro que será exibido na saída padrão */
-void printReg(Registro *reg){
+void printReg(Registro *reg) {
 
 	printf("CNPJ.........: ");
-	if(reg->cnpj[0] == 'n'){
+	if(reg->cnpj[0] == 'n') {
 		printf("null\n");
 	}
 	else{
@@ -1095,7 +1085,7 @@ void printReg(Registro *reg){
 	printf("Nome Fantasia: %s\n",   reg->nomeFant);
 
 	printf("Data Registro: ");
-	if(reg->dtReg[0] == 'n'){
+	if(reg->dtReg[0] == 'n') {
 		printf("null\n");
 	}
 	else{
@@ -1103,7 +1093,7 @@ void printReg(Registro *reg){
 	}
 
 	printf("Data Canc....: ");
-	if(reg->dtCanc[0] == 'n'){
+	if(reg->dtCanc[0] == 'n') {
 		printf("null\n");
 	}
 	else{
@@ -1114,7 +1104,7 @@ void printReg(Registro *reg){
 	printf("Empresa Aud..: %s\n",   reg->nomeEmp);
 
 	printf("CNPJ Emp Aud.: ");
-	if(reg->cnpjAud[0] == 'n'){
+	if(reg->cnpjAud[0] == 'n') {
 		printf("null\n\n");
 	}
 	else{
@@ -1130,7 +1120,7 @@ void printReg(Registro *reg){
 		strBusca = Valor (string) que será comparado com o campo do registro dado
 	Retorno:
 		Retorna o resultado da comparação, 0 para valores iguais e diferente de 0 caso contrário */
-int compareField(Registro *reg, int field, char *strBusca){
+int compareField(Registro *reg, int field, char *strBusca) {
 	int cmp = -1; // armazena o resultado da comparação
 
 	switch(field) {
@@ -1187,7 +1177,7 @@ int compareField(Registro *reg, int field, char *strBusca){
 		fieldBusca = Indica qual campo será retornado (seus valores vão de 1 a 8)
 	Retorno:
 		Retorna o valor correspondente ao campo desejado, caso o registro não seja encontrado retorna NULL */
-char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
+char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca) {
 	Registro *reg; // registro buscado
 	char *retorno = NULL; // aramzena o valor do campo buscado
 
@@ -1197,9 +1187,9 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 	if (reg == NULL)
 		return NULL;
 	else
-		switch(fieldBusca){
+		switch(fieldBusca) {
 			case 1:
-				if (reg->cnpj != NULL){
+				if (reg->cnpj != NULL) {
 					// aloca string que ira receber o campo
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->cnpj)+1);
 					// copia campo para a sting de retorno
@@ -1208,49 +1198,49 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 			break;
 
 			case 2:
-				if (reg->razSoc != NULL){
+				if (reg->razSoc != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->razSoc)+1);
 					memcpy(retorno, reg->razSoc, strlen(reg->razSoc)+1);
 				}
 			break;
 
 			case 3:
-				if (reg->nomeFant != NULL){
+				if (reg->nomeFant != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->nomeFant)+1);
 					memcpy(retorno, reg->nomeFant, strlen(reg->nomeFant)+1);
 				}
 			break;
 
 			case 4:
-				if (reg->dtReg != NULL){
+				if (reg->dtReg != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->dtReg)+1);
 					memcpy(retorno, reg->dtReg, strlen(reg->dtReg)+1);
 				}
 			break;
 
 			case 5:
-				if (reg->dtCanc != NULL){
+				if (reg->dtCanc != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->dtCanc)+1);
 					memcpy(retorno, reg->dtCanc, strlen(reg->dtCanc)+1);
 				}
 			break;
 
 			case 6:
-				if (reg->motCanc != NULL){
+				if (reg->motCanc != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->motCanc)+1);
 					memcpy(retorno, reg->motCanc, strlen(reg->motCanc)+1);
 				}
 			break;
 
 			case 7:
-				if (reg->nomeEmp != NULL){
+				if (reg->nomeEmp != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->nomeEmp)+1);
 					memcpy(retorno, reg->nomeEmp, strlen(reg->nomeEmp)+1);
 				}
 			break;
 
 			case 8:
-				if (reg->cnpjAud != NULL){
+				if (reg->cnpjAud != NULL) {
 					retorno = (char *) malloc(sizeof(char) * strlen(reg->cnpjAud)+1);
 					memcpy(retorno, reg->cnpjAud, strlen(reg->cnpjAud)+1);
 				}
@@ -1273,7 +1263,7 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca){
 		file = Arquivo cujo registro será retornado
 	Retorno:
 		Retorna o registro capturado do arquivo */
-Registro* getReg(FILE *file){
+Registro* getReg(FILE *file) {
         char buffer; // descarte
 	Registro *reg; // registro que será retornado
 	char *field; //campo genérico, usado para preencher o campo dos registros
@@ -1336,7 +1326,7 @@ Registro* getReg(FILE *file){
 		file = Arquivo cujo campo será retornado
 	Retorno:
 		Retorna o campo capturado do arquivo */
-char* getField(FILE *file){
+char* getField(FILE *file) {
 	char c; // carácter usado para percorrer o campo
 	int i = 0; //usado para iterar sobre o campo
 	char *field = NULL; // campo que será retornado
@@ -1345,7 +1335,7 @@ char* getField(FILE *file){
 	fread(&c, sizeof(char), 1, file);
 
 	// percorre até o delimitador de campo
-	while (c != DEL_FIELD){
+	while (c != DEL_FIELD) {
 		// adiciona o char ao campo
 		field = (char*)realloc(field, sizeof(char) * (i+2));
         field[i] = c;

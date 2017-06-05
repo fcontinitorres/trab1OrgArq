@@ -7,19 +7,22 @@ Bruno Henrique Rasteiro, 9292910
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "parametros.h"
 
 //*************************************************//
 //* ESTRUTURA DE DADOS QUE REPRESENTA UM REGISTRO *//
 //*************************************************//
 typedef struct {
-    char cnpj[19];
-    char *razSoc;
-    char *nomeFant;
-    char dtReg[9];
-	char dtCanc[9];
-    char *motCanc;
-    char *nomeEmp;
-    char cnpjAud[19];
+        char cnpj[19];
+        char *razSoc;
+        char *nomeFant;
+        char dtReg[9];
+        char dtCanc[9];
+        char *motCanc;
+        char *nomeEmp;
+        char cnpjAud[19];
 } Registro;
 
 
@@ -86,7 +89,6 @@ Registro* buscaReg_D(FILE *file, int regBusca);
 Registro* buscaReg_N(FILE *file, int regBusca);
 //--------------------//
 
-
 //****************************//
 //* SUB FUNÇÕES - UTILIDADES *//
 //****************************//
@@ -107,5 +109,4 @@ char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca);
 Registro* getReg(FILE *file);
 
 char* getField(FILE *file);
-
 //----------------------------//

@@ -6,7 +6,6 @@ Júlia Diniz Ferreira, 9364865
 Bruno Henrique Rasteiro, 9292910
 */
 
-
 // Armazena qual a organização de arquivo o programa irá trabalhar
 // Possível valores:
 // 	I = Indicador de tamanho
@@ -21,7 +20,7 @@ char org;
 #define DEL_FIELD ';'
 
 // caminho do arquivo de entrada
-#define FILE_IN "data/SCC0215012017projeto01turmaBdadosCompanhias.csv"
+#define FILE_IN "data/dados.csv"
 
 // caminho do arquivo de saida
 #define FILE_OUT "out/saida.bin"

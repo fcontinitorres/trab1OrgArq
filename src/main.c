@@ -9,18 +9,18 @@ Bruno Henrique Rasteiro, 9292910
 #include "../src/funcoes.h"
 #include "../src/parametros.h"
 
-int main(){
+int main() {
 	int flag;
 	int opcao;
 	FILE *fileIn, *fileOut;
 
 	// verifica se os arquivos foram abertos com sucesso
-	if (!validaArquivos(&fileIn, &fileOut)){
+	if (!validaArquivos(&fileIn, &fileOut)) {
 		return(0);
 	}
 
 	flag = 1;
-	while (flag){
+	while (flag) {
 		// seleciona o tipo da organização do arquivo
 		printf("\n++++++++++++++++++++++++++++++++++++++++\n");
 		printf("+ TRABALHO 1 - ORGANIZAÇÃO DE ARQUIVOS +\n");
@@ -32,7 +32,7 @@ int main(){
 		scanf("%d", &opcao);
 		getchar();
 
-		if (opcao < 1 || opcao > 3){
+		if (opcao < 1 || opcao > 3) {
 			printf("\nOpcao invalida.\n");
 			continue;
 		}
@@ -57,7 +57,7 @@ int main(){
 	fseek(fileOut, 0, SEEK_SET);
 
 	flag = 1;
-	while(flag){
+	while(flag) {
 
     	printf("\n++++++++\n");
     	printf("+ MENU +\n");
@@ -71,7 +71,7 @@ int main(){
 		scanf("%d", &opcao);
 		getchar();
 
-		switch(opcao){
+		switch(opcao) {
 			case 1:
 				opcao1(fileOut);
 			break;
