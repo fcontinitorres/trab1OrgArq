@@ -67,7 +67,6 @@ void listBin_D(FILE *file);
 void listBin_N(FILE *file);
 //---------------------------------------//
 
-
 //********************//
 //* FUNÇÕES DE BUSCA *//
 //********************//
@@ -86,6 +85,22 @@ Registro* buscaReg_I(FILE *file, int regBusca);
 Registro* buscaReg_D(FILE *file, int regBusca);
 
 Registro* buscaReg_N(FILE *file, int regBusca);
+//--------------------//
+
+//************************//
+//* FUNÇÕES DE INDEXAÇÃO *//
+//************************//
+
+void gerarArquivoIndice();
+
+//--------------------//
+
+//**********************//
+//* FUNÇÕES DE REMOÇÃO *//
+//**********************//
+
+void removerRegistro();
+
 //--------------------//
 
 //****************************//

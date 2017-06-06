@@ -1,4 +1,4 @@
-all: clean compile run
+all: compile run clean
 
 compile:
 	gcc src/main.c src/funcoes.c -o bin/prog -g

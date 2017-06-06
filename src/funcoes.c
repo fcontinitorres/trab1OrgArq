@@ -935,6 +935,22 @@ Registro* buscaReg_N(FILE *file, int regBusca) {
 }
 //--------------------//
 
+//************************//
+//* FUNÇÕES DE INDEXAÇÃO *//
+//************************//
+
+void gerarArquivoIndice();
+
+//--------------------//
+
+//**********************//
+//* FUNÇÕES DE REMOÇÃO *//
+//**********************//
+
+void removerRegistro();
+
+//--------------------//
+
 //*******************************//
 //* FUNÇÕES ÚTEIS (SUB FUNÇÕES) *//
 //*******************************//
@@ -1325,7 +1341,8 @@ Registro* getReg(FILE *file) {
 	Parêmetros:
 		file = Arquivo cujo campo será retornado
 	Retorno:
-		Retorna o campo capturado do arquivo */
+		Retorna o campo capturado do arquivo
+*/
 char* getField(FILE *file) {
 	char c; // carácter usado para percorrer o campo
 	int i = 0; //usado para iterar sobre o campo
