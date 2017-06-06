@@ -9,7 +9,7 @@ a documentação externa precisa ser revisada
 * explicar as diferenças de percorrer arquivos com delimitadores de registro, número fixo de campos e indicador de tamanho (ou seja, como essas diferenças foram retratadas no código)
 * mudar delimitador ; para campos
 
-* função saveField não separa campos fixos no começo ou no final do arquivo de dados, como é requerido na organização hibrida de registros
+* função salvarCampo não separa campos fixos no começo ou no final do arquivo de dados, como é requerido na organização hibrida de registros
 
 * 1ª organização
 ver os comentários sobre a organização híbrida acima

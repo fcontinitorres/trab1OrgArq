@@ -12,10 +12,10 @@ Bruno Henrique Rasteiro, 9292910
 int main() {
 	int flag;
 	int opcao;
-	FILE *fileIn, *fileOut;
+	FILE *arquivoEntrada, *arquivoSaida;
 
 	// verifica se os arquivos foram abertos com sucesso
-	if (!validaArquivos(&fileIn, &fileOut)) {
+	if (!validaArquivos(&arquivoEntrada, &arquivoSaida)) {
 		return(0);
 	}
 
@@ -48,13 +48,13 @@ int main() {
 	}
 
 	// gera arquivo de saida (binario)
-	csv2Bin(fileIn, fileOut);
+	gerarBinarioCSV(arquivoEntrada, arquivoSaida);
 
 	// fechando arquivo
-	fclose(fileIn);
+	fclose(arquivoEntrada);
 
 	// reseta ponteiro do arquivo binario
-	fseek(fileOut, 0, SEEK_SET);
+	fseek(arquivoSaida, 0, SEEK_SET);
 
 	flag = 1;
 	while(flag) {
@@ -73,19 +73,19 @@ int main() {
 
 		switch(opcao) {
 			case 1:
-				opcao1(fileOut);
+				opcao1(arquivoSaida);
 			break;
 
 			case 2:
-				opcao2(fileOut);
+				opcao2(arquivoSaida);
 			break;
 
 			case 3:
-				opcao3(fileOut);
+				opcao3(arquivoSaida);
 			break;
 
 			case 4:
-				opcao4(fileOut);
+				opcao4(arquivoSaida);
 			break;
 
 			case 5:
@@ -98,5 +98,5 @@ int main() {
 	}
 
 	// fechando arquivo
-	fclose(fileOut);
+	fclose(arquivoSaida);
 }

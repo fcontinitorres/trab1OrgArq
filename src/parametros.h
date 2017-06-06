@@ -14,13 +14,13 @@ Bruno Henrique Rasteiro, 9292910
 char org;
 
 // delimitador do registro no arquivo de saída
-#define DEL_REG '#'
+#define DELIM_REGISTRO '#'
 
 // delimitador do campo arquivo de saída
-#define DEL_FIELD ';'
+#define DELIM_CAMPO ';'
 
 // caminho do arquivo de entrada
-#define FILE_IN "data/dados.csv"
+#define ARQUIVO_ENTRADA "data/dados.csv"
 
 // caminho do arquivo de saida
-#define FILE_OUT "out/saida.bin"
+#define ARQUIVO_SAIDA "out/saida.bin"

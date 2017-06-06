@@ -16,75 +16,75 @@ Bruno Henrique Rasteiro, 9292910
 //*************************************************//
 typedef struct {
         char cnpj[19];
-        char *razSoc;
-        char *nomeFant;
-        char dtReg[9];
-        char dtCanc[9];
-        char *motCanc;
-        char *nomeEmp;
-        char cnpjAud[19];
+        char *razaoSocial;
+        char *nomeFantasia;
+        char dataRegistro[9];
+        char dataCancelamento[9];
+        char *motivoCancelamento;
+        char *nomeEmpresa;
+        char cnpjAuditor[19];
 } Registro;
 
 //*******************//
 //* FUNÇÕES DO MAIN *//
 //*******************//
-int validaArquivos(FILE **fileIn, FILE **fileOut);
+int validaArquivos(FILE **arquivoEntrada, FILE **arquivoSaida);
 
-void opcao1(FILE *file);
+void opcao1(FILE *arquivo);
 
-void opcao2(FILE *file);
+void opcao2(FILE *arquivo);
 
-void opcao3(FILE *file);
+void opcao3(FILE *arquivo);
 
-void opcao4(FILE *file);
+void opcao4(FILE *arquivo);
 
-char* convertStr(char *str);
+char* converterString(char *str);
 //-------------------//
 
 
 //*****************************************************//
 //* FUNÇÕES PARA GERAR O ARQUIVO BINÁRIO DE REGISTROS *//
 //*****************************************************//
-void checkSizeFixedFields(Registro *reg);
+void checarCamposFixos(Registro *reg);
 
-void csv2Bin(FILE *fileIn, FILE *file);
+void gerarBinarioCSV(FILE *arquivoEntrada, FILE *arquivo);
 
-void saveField(Registro *reg, FILE *file);
+void salvarCampo(Registro *reg, FILE *arquivo);
 
-void saveReg(Registro *reg, FILE *file);
+void salvarRegistro(Registro *reg, FILE *arquivo);
 //-----------------------------------------------------//
 
 
 //***************************************//
 //* FUNÇÕES PARA LISTAGEM DOS REGISTROS *//
 //***************************************//
-void listBin(FILE *file);
+void listarBinario(FILE *arquivo);
 
-void listBin_I(FILE *file);
+void listarBinario_I(FILE *arquivo);
 
-void listBin_D(FILE *file);
+void listarBinario_D(FILE *arquivo);
 
-void listBin_N(FILE *file);
+void listarBinario_N(FILE *arquivo);
 //---------------------------------------//
 
 //********************//
 //* FUNÇÕES DE BUSCA *//
 //********************//
-Registro* buscaCampo(FILE *file, int fieldBusca, char *strBusca);
+Registro* buscaCampo(FILE *arquivo, int campoBusca, char *strBusca);
 
-Registro* buscaCampo_I(FILE *file, int fieldBusca, char *strBusca);
+Registro* buscaCampo_I(FILE *arquivo, int campoBusca, char *strBusca);
 
-Registro* buscaCampo_D(FILE *file, int fieldBusca, char *strBusca);
+Registro* buscaCampo_D(FILE *arquivo, int campoBusca, char *strBusca);
 
-Registro* buscaCampo_N(FILE *file, int fieldBusca, char *strBusca);
+Registro* buscaCampo_N(FILE *arquivo, int campoBusca, char *strBusca);
 
-Registro* buscaReg(FILE *file, int regBusca);
+Registro* buscaReg(FILE *arquivo, int regBusca);
 
-Registro* buscaReg_I(FILE *file, int regBusca);
+Registro* buscaReg_I(FILE *arquivo, int regBusca);
 
-Registro* buscaReg_D(FILE *file, int regBusca);
+Registro* buscaReg_D(FILE *arquivo, int regBusca);
 
-Registro* buscaReg_N(FILE *file, int regBusca);
+Registro* buscaReg_N(FILE *arquivo, int regBusca);
 //--------------------//
 
 //************************//
@@ -106,21 +106,21 @@ void removerRegistro();
 //****************************//
 //* SUB FUNÇÕES - UTILIDADES *//
 //****************************//
-void addCharField(Registro *reg, char c, int field, int iField);
+void adicionaCharCampo(Registro *reg, char c, int campo, int iCampo);
 
-void addStringFieldCNPJ(Registro *reg, char c[18], int field);
+void preencherCampoCNPJ(Registro *reg, char c[18], int campo);
 
-void addStringFieldDate(Registro *reg,char c[18],int field);
+void preencherCampoData(Registro *reg,char c[18],int campo);
 
-void nullFields(Registro *reg);
+void nullCampos(Registro *reg);
 
-void printReg(Registro *reg);
+void printRegistro(Registro *reg);
 
-int compareField(Registro *reg, int field, char *strBusca);
+int compararCampos(Registro *reg, int campo, char *strBusca);
 
-char* buscaRegCampo(FILE *file, int regBusca, int fieldBusca);
+char* buscaRegCampo(FILE *arquivo, int regBusca, int campoBusca);
 
-Registro* getReg(FILE *file);
+Registro* getRegistro(FILE *arquivo);
 
-char* getField(FILE *file);
+char* getCampo(FILE *arquivo);
 //----------------------------//
