@@ -12,10 +12,10 @@ Bruno Henrique Rasteiro, 9292910
 int main() {
 	int flag;
 	int opcao;
-	FILE *arquivoEntrada, *arquivoSaida;
+	FILE *arquivoEntrada, *arquivoSaida1, *arquivoSaida2, *arquivoSaida3;
 
 	// verifica se os arquivos foram abertos com sucesso
-	if (!validaArquivos(&arquivoEntrada, &arquivoSaida)) {
+	if (!validaArquivos(&arquivoEntrada, &arquivoSaida1, &arquivoSaida2, &arquivoSaida3)) {
 		return(0);
 	}
 
@@ -48,13 +48,17 @@ int main() {
 	}
 
 	// gera arquivo de saida (binario)
-	gerarBinarioCSV(arquivoEntrada, arquivoSaida);
+	gerarBinarioCSV(arquivoEntrada, arquivoSaida1);
+	gerarBinarioCSV(arquivoEntrada, arquivoSaida2);
+	gerarBinarioCSV(arquivoEntrada, arquivoSaida3);
 
 	// fechando arquivo
 	fclose(arquivoEntrada);
 
 	// reseta ponteiro do arquivo binario
-	fseek(arquivoSaida, 0, SEEK_SET);
+	fseek(arquivoSaida1, 0, SEEK_SET);
+	fseek(arquivoSaida2, 0, SEEK_SET);
+	fseek(arquivoSaida3, 0, SEEK_SET);
 
 	flag = 1;
 	while(flag) {
@@ -71,6 +75,7 @@ int main() {
 		scanf("%d", &opcao);
 		getchar();
 
+		// TODO: atualizar p/ 3 arquivos de saída
 		switch(opcao) {
 			case 1:
 				opcao1(arquivoSaida);
@@ -97,6 +102,8 @@ int main() {
 		}
 	}
 
-	// fechando arquivo
-	fclose(arquivoSaida);
+	// fechando arquivos
+	fclose(arquivoSaida1);
+	fclose(arquivoSaida2);
+	fclose(arquivoSaida3);
 }

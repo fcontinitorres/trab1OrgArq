@@ -28,7 +28,7 @@ typedef struct {
 //*******************//
 //* FUNÇÕES DO MAIN *//
 //*******************//
-int validaArquivos(FILE **arquivoEntrada, FILE **arquivoSaida);
+int validaArquivos(FILE **arquivoEntrada, FILE **arquivoSaida1, FILE **arquivoSaida2, FILE **arquivoSaida3);
 
 void opcao1(FILE *arquivo);
 

@@ -23,4 +23,6 @@ char org;
 #define ARQUIVO_ENTRADA "data/dados.csv"
 
 // caminho do arquivo de saida
-#define ARQUIVO_SAIDA "out/saida.bin"
+#define ARQUIVO_SAIDA_1 "out/saida1.bin"
+#define ARQUIVO_SAIDA_2 "out/saida2.bin"
+#define ARQUIVO_SAIDA_3 "out/saida3.bin"

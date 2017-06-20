@@ -21,20 +21,32 @@ Bruno Henrique Rasteiro, 9292910
 		Retorna um int que indica o sucesso da função. Os possíves valores são:
 		1 -> Arquivos aberto com sucesso
 		2 -> Falha ao abrir arquivos */
-int validaArquivos(FILE **arquivoEntrada, FILE **arquivoSaida) {
+int validaArquivos(FILE **arquivoEntrada, FILE **arquivoSaida1, FILE **arquivoSaida2, FILE **arquivoSaida3) {
 
 	// abrindo arquivos
     *arquivoEntrada  = fopen(ARQUIVO_ENTRADA, "r");
-    *arquivoSaida = fopen(ARQUIVO_SAIDA, "wb+");
+    *arquivoSaida1 = fopen(ARQUIVO_SAIDA_1, "wb+");
+    *arquivoSaida2 = fopen(ARQUIVO_SAIDA_2, "wb+");
+    *arquivoSaida3 = fopen(ARQUIVO_SAIDA_3, "wb+");
 
     if (*arquivoEntrada == NULL) {
     	printf("Erro ao abrir: %s\n", ARQUIVO_ENTRADA);
     	return(0);
     }
 
-    if (*arquivoSaida == NULL) {
-    	printf("Erro ao abrir: %s\n", ARQUIVO_SAIDA);
+    if (*arquivoSaida1 == NULL) {
+    	printf("Erro ao abrir: %s\n", ARQUIVO_SAIDA_1);
     	return(0);
+    }
+
+    if (*arquivoSaida2 == NULL) {
+        printf("Erro ao abrir: %s\n", ARQUIVO_SAIDA_2);
+        return(0);
+    }
+
+    if (*arquivoSaida3 == NULL) {
+        printf("Erro ao abrir: %s\n", ARQUIVO_SAIDA_3);
+        return(0);
     }
 
     return(1);
@@ -207,7 +219,7 @@ void opcao4(FILE *arquivo) {
 	Retorno:
 		Retorna a string convertida, caso a string dada seja NULL o retorno também será */
 char* converterString(char *str) {
-	int i; // indice que será percorrido na string
+	unsigned int i; // indice que será percorrido na string
 	char *retorno = NULL; // string de retorno
 
 	if (str != NULL) {
@@ -237,7 +249,6 @@ char* converterString(char *str) {
 		arquivoSaida = Arquivo de saída */
 void gerarBinarioCSV(FILE *arquivoEntrada, FILE *arquivoSaida) {
     char c = 'c'; // caracter que irá percorrer o arquivo, deve ser inicializado com um valor != de EOF
-    char string[18];
     int campo;  // indica qual campo do arquivo está sendo lido, seus valores vão de 0 a 7
     int iCampo; // indica o inidice o campo que está sendo lido, seus valores vão de 0 a n
     Registro reg; // armazena um registro lido
@@ -1288,8 +1299,6 @@ char* buscaRegCampo(FILE *arquivo, int regBusca, int campoBusca) {
 Registro* getRegistro(FILE *arquivo) {
         char buffer; // descarte
 	Registro *reg; // registro que será retornado
-	char *campo; //campo genérico, usado para preencher o campo dos registros
-	int i; // itera sobre os campos
 
 	// alocando registro que será retornado
 	reg = (Registro *) malloc(sizeof(Registro));

@@ -6,11 +6,13 @@ compile:
 run:
 	./bin/prog
 
+memcheck:
+	valgrind -v --leak-check=full --show-leak-kinds=all --read-var-info=yes --track-origins=yes bin/prog
+
 debug:
-	valgrind -v --leak-check=full --show-leak-kinds=all --read-var-info=yes --track-origins=yes ./bin/prog
+	gdb ./bin/prog
 
 clean:
-	rm -f bin/prog
 	rm -f vgcore*
 	rm -r *.o
 
